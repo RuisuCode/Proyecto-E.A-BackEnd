@@ -1,26 +1,24 @@
-// import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import CreateUserValidator from "../../Validators/CreateUserValidator";
 import { DataResponse } from "App/Services/DataResponse";
-import Database from "@ioc:Adonis/Lucid/Database";
 import User from "App/Models/User";
-import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 
 export default class UsersController {
-  store(ctx: HttpContextContract): any {
-    throw new Error("Method not implemented.");
+  public async index({ response }: HttpContextContract) {
+    try {
+      const tipos = await User.query().preload("rol");
+      return DataResponse("Usuarios optenidos", tipos);
+    } catch (error) {
+      return response.badRequest(DataResponse(error));
+    }
   }
-  public async create({ request, response }) {
-    const trx = await Database.transaction();
 
+  public async store({ request, response }) {
     try {
       const payload = await request.validate(CreateUserValidator);
-
-      await User.create(payload, { client: trx });
-
-      trx.commit();
+      await User.create(payload);
       return DataResponse("Usuario creado exitosamente");
     } catch (error) {
-      trx.rollback();
       return response.badRequest(DataResponse(error));
     }
   }

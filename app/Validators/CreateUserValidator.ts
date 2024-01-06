@@ -2,19 +2,24 @@ import { schema, rules } from "@ioc:Adonis/Core/Validator";
 
 export default class CreateUserValidator {
   public schema = schema.create({
-    ci: schema.number([
+    cedula: schema.number([
       rules.unique({
         table: "users",
-        column: "ci",
+        column: "cedula",
       }),
     ]),
     password: schema.string({}, [rules.minLength(6)]),
+    rol_id: schema.number.optional([
+      rules.exists({
+        table: "rols",
+        column: "id",
+      }),
+    ]),
   });
 
   public messages = {
-    "email.required": "Introduce tu correo electrónico",
-    "email.unique": "Correo electrónico ya está en uso",
-    "email.email": "Dirección de correo electrónico no válida",
+    "cedula.required": "Cédula requerida",
+    "cedula.unique": "Ya existe este usuario",
     "password.required": "Ingrese la contraseña de la cuenta",
     "password.minLength": "Contraseña demasiado corta",
   };
