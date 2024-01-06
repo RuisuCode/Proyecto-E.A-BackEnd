@@ -18,9 +18,7 @@ export default class AuthController {
       if (verifyToken) throw new Error("Usuario con sesion iniciada");
 
       const token = await auth.use("api").generate(user, {
-        // expiresIn: "1 days",
         expiresIn: "30 mins",
-        // expiresIn: "1 mins",
       });
 
       return {

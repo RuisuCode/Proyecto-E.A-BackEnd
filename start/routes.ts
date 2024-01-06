@@ -22,7 +22,7 @@ import Route from "@ioc:Adonis/Core/Route";
 import UsersController from "App/Controllers/Http/UsersController";
 
 Route.get("/", async () => {
-  return { hello: "world" };
+  return { hello: "Bienvenido" };
 });
 /* Route.post("registro", async () => {
   return new UsersController();

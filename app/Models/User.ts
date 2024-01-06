@@ -7,7 +7,7 @@ export default class User extends BaseModel {
   public id: number;
 
   @column()
-  public cedula: string;
+  public cedula: number;
 
   @column()
   public password: string;
