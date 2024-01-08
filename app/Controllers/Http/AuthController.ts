@@ -33,8 +33,9 @@ export default class AuthController {
   public async logout({ auth, response }: HttpContextContract) {
     try {
       const autenticado = await auth.use("api").check();
-      if (!autenticado)
+      if (!autenticado) {
         throw new Error("Token no valido o sesión no existente");
+      }
       await auth.use("api").revoke();
       return DataResponse("Éxito al cerrar sesión");
     } catch (error) {

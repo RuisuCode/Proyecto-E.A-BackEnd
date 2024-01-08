@@ -7,7 +7,7 @@ export default class UsersController {
   public async index({ response }: HttpContextContract) {
     try {
       const tipos = await User.query().preload("rol");
-      return DataResponse("Usuarios optenidos", tipos);
+      return DataResponse("Usuarios obtenidos", tipos);
     } catch (error) {
       return response.badRequest(DataResponse(error));
     }
