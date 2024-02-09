@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Env_1 = __importDefault(global[Symbol.for('ioc.use')]("Adonis/Core/Env"));
 exports.default = Env_1.default.rules({
+    TZ: Env_1.default.schema.string(),
     HOST: Env_1.default.schema.string({ format: "host" }),
     PORT: Env_1.default.schema.number(),
     APP_KEY: Env_1.default.schema.string(),
