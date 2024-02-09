@@ -18,7 +18,7 @@ export default class AuthController {
       if (verifyToken) throw new Error("Usuario con sesión iniciada");
 
       const token = await auth.use("api").generate(user, {
-        expiresIn: "30 mins",
+        expiresIn: "15 mins",
       });
 
       return {
@@ -50,7 +50,7 @@ export default class AuthController {
         throw new Error("Token no valido o sesión no existente");
       const token = await auth
         .use("api")
-        .generate(auth.user, { expiresIn: "30 mins" });
+        .generate(auth.user, { expiresIn: "15 mins" });
       await auth.use("api").revoke();
       return DataResponse("Sesión restaurada correctamente", token);
     } catch (error) {
