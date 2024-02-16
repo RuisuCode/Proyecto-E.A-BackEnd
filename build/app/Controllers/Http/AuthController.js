@@ -19,7 +19,7 @@ class AuthController {
             if (verifyToken)
                 throw new Error("Usuario con sesión iniciada");
             const token = await auth.use("api").generate(user, {
-                expiresIn: "15 mins",
+                expiresIn: "10 mins",
             });
             return {
                 data: token,
