@@ -1,7 +1,4 @@
-import Route from "@ioc:Adonis/Core/Route";
+import userCreate from '#controllers/create_user_controller'
+import router from '@adonisjs/core/services/router'
 
-Route.group(() => {
-  Route.get("/users", "UsersController.index");
-}).middleware(["auth"]);
-
-Route.post("/user", "UsersController.store");
+router.post('/user', [userCreate, 'create'])

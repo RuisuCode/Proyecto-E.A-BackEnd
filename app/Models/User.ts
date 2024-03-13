@@ -1,40 +1,51 @@
-import { DateTime } from "luxon";
-import {
-  BaseModel,
-  BelongsTo,
-  beforeSave,
-  belongsTo,
-  column,
-} from "@ioc:Adonis/Lucid/Orm";
-import Hash from "@ioc:Adonis/Core/Hash";
-import Rol from "./Rol";
+import { DateTime } from 'luxon'
+import { withAuthFinder } from '@adonisjs/auth'
+import hash from '@adonisjs/core/services/hash'
+import { compose } from '@adonisjs/core/helpers'
+import { BaseModel, beforeCreate, column, hasOne } from '@adonisjs/lucid/orm'
+import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
+import { v4 as uuid } from 'uuid'
+import Rol from '#models/rol'
+import type { HasOne } from '@adonisjs/lucid/types/relations'
 
-export default class User extends BaseModel {
+const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
+  uids: ['cedula'],
+  passwordColumnName: 'password',
+})
+
+export default class User extends compose(BaseModel, AuthFinder) {
+  static selfAssignPrimaryKey = true
+
+  static authTokens = DbAccessTokensProvider.forModel(User, {
+    expiresIn: '10 min',
+    prefix: 'oat_',
+    table: 'auth_access_tokens',
+    type: 'auth_token',
+  })
+
   @column({ isPrimary: true })
-  public id: number;
+  declare id: string
 
   @column({ serializeAs: null })
-  public rolId: number;
+  declare rolId: number
+
+  @hasOne(() => Rol)
+  declare rol: HasOne<typeof Rol>
 
   @column()
-  public cedula: string;
+  declare cedula: string
 
   @column({ serializeAs: null })
-  public password: string;
+  declare password: string
 
   @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime;
+  declare createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime;
+  declare updatedAt: DateTime | null
 
-  @belongsTo(() => Rol)
-  public rol: BelongsTo<typeof Rol>;
-
-  @beforeSave()
-  public static async hashPassword(user: User) {
-    if (user.$dirty.password) {
-      user.password = await Hash.make(user.password);
-    }
+  @beforeCreate()
+  static assignUuid(user: User) {
+    user.id = uuid()
   }
 }

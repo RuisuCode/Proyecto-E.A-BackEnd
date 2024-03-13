@@ -1,9 +1,9 @@
-import { BaseModel, column } from "@ioc:Adonis/Lucid/Orm";
+import { BaseModel, column } from '@adonisjs/lucid/orm'
 
 export default class Rol extends BaseModel {
   @column({ isPrimary: true })
-  public id: number;
+  declare id: number
 
   @column()
-  public nombre: string;
+  declare nombre: string
 }

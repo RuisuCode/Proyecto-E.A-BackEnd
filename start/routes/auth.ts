@@ -1,6 +1,12 @@
-import Route from "@ioc:Adonis/Core/Route";
+import UsersController from '#controllers/users_controller'
+import { middleware } from '#start/kernel'
+import router from '@adonisjs/core/services/router'
 
-Route.post("/login", "AuthController.login");
-Route.post("/logout", "AuthController.logout");
-Route.post("/refresh_token", "AuthController.refreshToken");
-Route.get("/verify_token", "AuthController.verifyToken");
+router.post('/login', [UsersController, 'login'])
+
+router
+  .group(() => {
+    router.get('/verify_token', [UsersController, 'verifyToken'])
+    router.post('/logout', [UsersController, 'logout'])
+  })
+  .use(middleware.auth({ guards: ['api'] }))

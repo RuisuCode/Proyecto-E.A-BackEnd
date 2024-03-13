@@ -1,1 +1,0 @@
-{"version":3,"file":"DataResponse.js","sourceRoot":"","sources":["../../../app/Services/DataResponse.ts"],"names":[],"mappings":";;;AAAO,MAAM,YAAY,GAAG,CAAC,OAAY,EAAE,OAAY,EAAE,EAAE,EAAE;IAC3D,OAAO;QACL,OAAO,EAAE,OAAO,CAAC,QAAQ,IAAI,OAAO,CAAC,OAAO,IAAI,OAAO;QACvD,IAAI;KACL,CAAC;AACJ,CAAC,CAAC;AALW,QAAA,YAAY,gBAKvB"}
